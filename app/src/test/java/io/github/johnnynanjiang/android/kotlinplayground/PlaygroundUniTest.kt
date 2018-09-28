@@ -8,7 +8,7 @@ import org.junit.Assert.*
  */
 class PlaygroundUniTest {
     @Test
-    fun immutableDataClassTest() {
+    fun immutableDataClass() {
         data class TestDataClass(val name: String, val age: Int)
 
         var obj = TestDataClass("Max", 9)
@@ -18,7 +18,7 @@ class PlaygroundUniTest {
     }
 
     @Test
-    fun mutableDataClassTest() {
+    fun mutableDataClass() {
         data class TestDataClass(var name: String, var age: Int)
 
         val obj = TestDataClass("Max", 9)
@@ -34,7 +34,7 @@ class PlaygroundUniTest {
     }
 
     @Test
-    fun deaultValuesInConstructor() {
+    fun defaultValuesInConstructor() {
         class TestDataClass(val param1:String = "param1", val param2:String = "param2")
 
         val obj = TestDataClass(param2 = "param2_new")
@@ -64,5 +64,15 @@ class PlaygroundUniTest {
                     }
                 }
                 .forEach { println(it) }
+    }
+
+    @Test
+    fun generics() {
+        fun <T> print(lhs: T, rhs: T) = println("$lhs, $rhs")
+
+        print<String>("a", "b")
+        print<Int>(1, 2)
+        print<Float>(1.1f, 2.2f)
+        print<Number>(1.11, 2.22)
     }
 }
