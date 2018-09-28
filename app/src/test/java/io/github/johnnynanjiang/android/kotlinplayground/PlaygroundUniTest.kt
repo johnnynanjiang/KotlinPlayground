@@ -6,7 +6,6 @@ import org.junit.Assert.*
 /**
  * Created by nanjiang on 4/9/18.
  */
-
 class PlaygroundUniTest {
     @Test
     fun immutableDataClassTest() {
@@ -36,34 +35,34 @@ class PlaygroundUniTest {
 
     @Test
     fun deaultValuesInConstructor() {
-        class TestDataClass(val param1 = "param1", val param2 = "param2")
+        class TestDataClass(val param1:String = "param1", val param2:String = "param2")
 
-        val obj(param2 = "param2_new")
+        val obj = TestDataClass(param2 = "param2_new")
 
         assertEquals("param1", obj.param1)
         assertEquals("param2_new", obj.param2)
     }
 
+    sealed class TestSealedClass {
+        class SubClassA(val property1:String = "property1") : TestSealedClass()
+        data class SubClassB(val property1:String = "property1") : TestSealedClass()
+        object SubClassC : TestSealedClass()
+    }
+
     @Test
     fun sealedClass() {
-        sealed class TestSealedClass()
+        val objA = TestSealedClass.SubClassA()
+        val objB = TestSealedClass.SubClassB()
+        val objC = TestSealedClass.SubClassC
 
-        class SubClassA(val property1 = "property1") : TestSealedClass
-        data class SubClassB(val property1 = "property1") : TestSealedClass
-        object SubClassC(val property1 = "property1") : TestSealedClass
-
-        val objA = SubClassA()
-        val objB = SubClassB()
-        val objC = SubClassC()
-
-        for(obj in [objA, objB, objC]) {
-            val result = when(param) {
-                is SubClassA -> "SubClassA"
-                is SubClassB -> "SubClassB"
-                SubClassC -> "SubClassC"
-            }
-
-            println(result)
-        }
+        arrayOf(objA, objB, objC)
+                .map {
+                    when(it) {
+                        is TestSealedClass.SubClassA -> "SubClassA"
+                        is TestSealedClass.SubClassB -> "SubClassB"
+                        is TestSealedClass.SubClassC -> "SubClassC"
+                    }
+                }
+                .forEach { println(it) }
     }
 }
