@@ -12,8 +12,20 @@ class RxUnitTest {
     fun testRxJava() {
         val observable = Observable.just(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
                 .filter { it > 3 }
-                .map { println("map($it)") }
-        val subscriber1 = observable.subscribe { println("subscriber1 complete") }
-        val subscriber2 = observable.subscribe { println("subscriber2 complete") }
+                .map {
+                    println("map on ($it)")
+                    it
+                }
+        observable.subscribe(
+                { item -> println("subscriber1 next on ($item)") },
+                { item -> println("subscriber1 error on ($item)") },
+                { println("subscriber1 finally complete") }
+        )
+
+        observable.subscribe(
+                { item -> println("subscriber2 next on ($item)") },
+                { item -> println("subscriber2 error on ($item)") },
+                { println("subscriber2 finally complete") }
+        )
     }
 }
